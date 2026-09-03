@@ -22,7 +22,7 @@ import { fetchSheetBundle, type SheetRow, type SheetTable } from "@/lib/sheets.f
 const str = (v: unknown, fallback = "") =>
   v === undefined || v === null || v === "" ? fallback : String(v).trim();
 const num = (v: unknown, fallback = 0) => {
-  const n = Number(String(v ?? "").replace(/[^0-9.\-]/g, ""));
+  const n = Number(String(v ?? "").replace(/[^0-9.-]/g, ""));
   return Number.isFinite(n) ? n : fallback;
 };
 const bool = (v: unknown) => /^(true|yes|1|y)$/i.test(String(v ?? "").trim());
