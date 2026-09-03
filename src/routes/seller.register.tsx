@@ -105,8 +105,20 @@ function RegisterSeller() {
     const { nammaspotId: _id, password: _pw, confirmPassword: _cpw, ...profile } = parsed.data;
 
     setBusy(true);
+
+    // Check the ID is free before writing any seller record, so a taken ID
+    // cannot leave an orphaned profile behind.
+    const free = await isIdAvailable(nammaspotId);
+    if (free === false) {
+      setBusy(false);
+      setErrors({ nammaspotId: "That NammaSpot ID is already taken." });
+      toast.error("That NammaSpot ID is already taken.");
+      return;
+    }
+
     const seller = registerSeller({ ...profile, ...(avatarUrl ? { imageUrl: avatarUrl } : {}) });
     const auth = await signUpSeller({
+
       nammaspotId,
       password,
       sellerId: seller.id,
