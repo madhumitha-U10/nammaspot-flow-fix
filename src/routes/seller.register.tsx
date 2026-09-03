@@ -22,10 +22,12 @@ import { useStoreData } from "@/hooks/use-store-data";
 import { setSession } from "@/lib/session";
 import { sellerRegistrationSchema } from "@/lib/validation/seller";
 import {
+  isIdAvailable,
   signUpSeller,
   validateNammaspotId,
   validatePassword,
 } from "@/lib/seller-auth";
+
 
 export const Route = createFileRoute("/seller/register")({
   head: () => ({
