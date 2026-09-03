@@ -22,6 +22,7 @@ import { useStoreData } from "@/hooks/use-store-data";
 import { setSession } from "@/lib/session";
 import { sellerRegistrationSchema } from "@/lib/validation/seller";
 import {
+  isIdAvailable,
   signUpSeller,
   validateNammaspotId,
   validatePassword,
@@ -103,6 +104,17 @@ function RegisterSeller() {
     const { nammaspotId: _id, password: _pw, confirmPassword: _cpw, ...profile } = parsed.data;
 
     setBusy(true);
+
+    // Check the ID is free before writing any seller record, so a taken ID
+    // cannot leave an orphaned profile behind.
+    const free = await isIdAvailable(nammaspotId);
+    if (free === false) {
+      setBusy(false);
+      setErrors({ nammaspotId: "That NammaSpot ID is already taken." });
+      toast.error("That NammaSpot ID is already taken.");
+      return;
+    }
+
     const seller = registerSeller({ ...profile, ...(avatarUrl ? { imageUrl: avatarUrl } : {}) });
     const auth = await signUpSeller({
       nammaspotId,
@@ -156,21 +168,37 @@ function RegisterSeller() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="businessName">Business name</Label>
-              <Input id="businessName" name="businessName" className="mt-1.5" maxLength={80} autoComplete="organization" />
+              <Input
+                id="businessName"
+                name="businessName"
+                className="mt-1.5"
+                maxLength={80}
+                autoComplete="organization"
+              />
               {err("businessName")}
             </div>
             <div>
               <Label htmlFor="ownerName">Your name</Label>
-              <Input id="ownerName" name="ownerName" className="mt-1.5" maxLength={50} autoComplete="name" />
+              <Input
+                id="ownerName"
+                name="ownerName"
+                className="mt-1.5"
+                maxLength={50}
+                autoComplete="name"
+              />
               {err("ownerName")}
             </div>
             <div>
               <Label>Category</Label>
               <Select value={categoryId} onValueChange={setCategoryId}>
-                <SelectTrigger className="mt-1.5"><SelectValue placeholder="Select category" /></SelectTrigger>
+                <SelectTrigger className="mt-1.5">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
                 <SelectContent>
                   {(cats ?? []).map((c) => (
-                    <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.name}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -178,32 +206,78 @@ function RegisterSeller() {
             </div>
             <div>
               <Label htmlFor="area">Area</Label>
-              <Input id="area" name="area" placeholder="Anna Nagar" className="mt-1.5" maxLength={60} />
+              <Input
+                id="area"
+                name="area"
+                placeholder="Anna Nagar"
+                className="mt-1.5"
+                maxLength={60}
+              />
               {err("area")}
             </div>
             <div>
               <Label htmlFor="city">City</Label>
-              <Input id="city" name="city" placeholder="Chennai" defaultValue="Chennai" className="mt-1.5" maxLength={40} />
+              <Input
+                id="city"
+                name="city"
+                placeholder="Chennai"
+                defaultValue="Chennai"
+                className="mt-1.5"
+                maxLength={40}
+              />
               {err("city")}
             </div>
             <div>
               <Label htmlFor="instagram">Instagram handle</Label>
-              <Input id="instagram" name="instagram" placeholder="@ammaveedubakes" autoCapitalize="none" spellCheck={false} className="mt-1.5" maxLength={40} />
+              <Input
+                id="instagram"
+                name="instagram"
+                placeholder="@ammaveedubakes"
+                autoCapitalize="none"
+                spellCheck={false}
+                className="mt-1.5"
+                maxLength={40}
+              />
               {err("instagram")}
             </div>
             <div>
               <Label htmlFor="whatsapp">WhatsApp (with 91)</Label>
-              <Input id="whatsapp" name="whatsapp" type="tel" inputMode="numeric" placeholder="919840112233" className="mt-1.5" maxLength={15} />
+              <Input
+                id="whatsapp"
+                name="whatsapp"
+                type="tel"
+                inputMode="numeric"
+                placeholder="919840112233"
+                className="mt-1.5"
+                maxLength={15}
+              />
               {err("whatsapp")}
             </div>
             <div>
               <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" autoComplete="email" className="mt-1.5" maxLength={120} />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                className="mt-1.5"
+                maxLength={120}
+              />
               {err("email")}
             </div>
             <div>
               <Label htmlFor="priceFrom">Starting price (₹)</Label>
-              <Input id="priceFrom" name="priceFrom" type="number" min="0" max="999999" step="1" inputMode="numeric" defaultValue="500" className="mt-1.5" />
+              <Input
+                id="priceFrom"
+                name="priceFrom"
+                type="number"
+                min="0"
+                max="999999"
+                step="1"
+                inputMode="numeric"
+                defaultValue="500"
+                className="mt-1.5"
+              />
               {err("priceFrom")}
             </div>
           </div>
@@ -266,7 +340,10 @@ function RegisterSeller() {
             {busy ? "Creating…" : "Create my profile"}
           </Button>
           <p className="text-center text-xs text-muted-foreground">
-            Already listed? <Link to="/seller/login" className="text-primary hover:underline">Seller login</Link>
+            Already listed?{" "}
+            <Link to="/seller/login" className="text-primary hover:underline">
+              Seller login
+            </Link>
           </p>
         </form>
       </div>

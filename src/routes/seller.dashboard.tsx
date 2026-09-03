@@ -442,7 +442,9 @@ function Dashboard() {
               <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
                 <div className="space-y-3">
                   {list.length === 0 && (
-                    <p className="text-sm text-muted-foreground">No products yet. Add your first item using the form.</p>
+                    <p className="text-sm text-muted-foreground">
+                      No products yet. Add your first item using the form.
+                    </p>
                   )}
                   {list.map((p) => (
                     <div
@@ -794,7 +796,12 @@ function EditProductDialog({
   };
 
   return (
-    <Dialog open onOpenChange={(open) => { if (!open) onClose(); }}>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>Edit product</DialogTitle>
@@ -802,16 +809,35 @@ function EditProductDialog({
         <form onSubmit={submit} className="space-y-3">
           <div>
             <Label htmlFor="edit-name">Name</Label>
-            <Input id="edit-name" name="name" defaultValue={product.name} className="mt-1.5" maxLength={80} />
+            <Input
+              id="edit-name"
+              name="name"
+              defaultValue={product.name}
+              className="mt-1.5"
+              maxLength={80}
+            />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div>
               <Label htmlFor="edit-price">Price ₹</Label>
-              <Input id="edit-price" name="price" type="number" inputMode="numeric" defaultValue={product.price} className="mt-1.5" />
+              <Input
+                id="edit-price"
+                name="price"
+                type="number"
+                inputMode="numeric"
+                defaultValue={product.price}
+                className="mt-1.5"
+              />
             </div>
             <div>
               <Label htmlFor="edit-unit">Unit</Label>
-              <Input id="edit-unit" name="unit" defaultValue={product.unit} className="mt-1.5" maxLength={30} />
+              <Input
+                id="edit-unit"
+                name="unit"
+                defaultValue={product.unit}
+                className="mt-1.5"
+                maxLength={30}
+              />
             </div>
           </div>
           <div>
@@ -828,7 +854,14 @@ function EditProductDialog({
           </div>
           <div>
             <Label htmlFor="edit-description">Description</Label>
-            <Textarea id="edit-description" name="description" rows={3} defaultValue={product.description} className="mt-1.5" maxLength={400} />
+            <Textarea
+              id="edit-description"
+              name="description"
+              rows={3}
+              defaultValue={product.description}
+              className="mt-1.5"
+              maxLength={400}
+            />
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>

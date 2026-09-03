@@ -10,7 +10,9 @@ import { z } from "zod";
 
 import { SHEETS_API_BASE_FALLBACK } from "@/lib/sheets-shared";
 
-async function postToSheet(body: Record<string, unknown>): Promise<{ ok: boolean; error?: string }> {
+async function postToSheet(
+  body: Record<string, unknown>,
+): Promise<{ ok: boolean; error?: string }> {
   const base = process.env["SHEETS_API_BASE"] ?? SHEETS_API_BASE_FALLBACK;
   const writeToken = process.env["SHEETS_WRITE_TOKEN"] ?? undefined;
   try {

@@ -6,16 +6,8 @@ import { supabase } from "./client";
 // the browser never attaches the bearer token to serverFn RPCs.
 export const attachSupabaseAuth = createMiddleware({ type: "function" }).client(
   async ({ next }) => {
-    let token: string | undefined;
-    try {
-      const { data } = await supabase.auth.getSession();
-      token = data.session?.access_token;
-    } catch (error) {
-      // Supabase not configured (or session read failed): continue without a
-      // bearer token instead of breaking every server function call — e.g.
-      // admin login, which does not depend on Supabase at all.
-      console.warn("[Supabase] Skipping auth header:", (error as Error)?.message);
-    }
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
     return next({
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });
