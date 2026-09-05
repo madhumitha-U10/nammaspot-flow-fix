@@ -30,7 +30,9 @@ import {
   setCustomerAvatar,
   storiesBySeller,
 } from "@/lib/api";
+import { trackStoreView, trackWhatsAppClick } from "@/lib/engagement";
 import { imageForCategorySlug } from "@/lib/images";
+import { productUrl, storeUrl, whatsAppChatUrl } from "@/lib/share";
 
 export const Route = createFileRoute("/seller/$slug")({
   loader: ({ params }) => {
