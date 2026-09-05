@@ -1,13 +1,15 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CalendarDays, Instagram, MapPin, MessageCircle, Phone, Share2, Truck } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
 import { Rating } from "@/components/site/Rating";
 import { PhotoPicker } from "@/components/site/PhotoPicker";
 import { ProductImage } from "@/components/site/ProductImage";
+import { SaveButton } from "@/components/site/SaveButton";
 import { SellerAvatar } from "@/components/site/SellerAvatar";
+import { ShareDialog } from "@/components/site/ShareDialog";
 import { SiteShell } from "@/components/site/SiteShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +30,9 @@ import {
   setCustomerAvatar,
   storiesBySeller,
 } from "@/lib/api";
+import { trackStoreView, trackWhatsAppClick } from "@/lib/engagement";
 import { imageForCategorySlug } from "@/lib/images";
+import { productUrl, storeUrl, whatsAppChatUrl } from "@/lib/share";
 
 export const Route = createFileRoute("/seller/$slug")({
   loader: ({ params }) => {
@@ -95,6 +99,11 @@ function SellerProfile() {
 
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
+  const sellerId = seller?.id;
+  useEffect(() => {
+    if (sellerId) trackStoreView(sellerId);
+  }, [sellerId]);
+
   if (resolved && resolved.seller === null) throw notFound();
   if (!seller) {
     return (
@@ -108,20 +117,8 @@ function SellerProfile() {
 
   const category = categoryById(seller.categoryId);
   const story = storiesBySeller(seller.id)[0];
+  const shopUrl = storeUrl(seller.slug);
 
-  const share = async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: seller.businessName, url });
-        return;
-      } catch {
-        /* user cancelled */
-      }
-    }
-    await navigator.clipboard.writeText(url);
-    toast.success("Profile link copied");
-  };
 
   return (
     <SiteShell>
