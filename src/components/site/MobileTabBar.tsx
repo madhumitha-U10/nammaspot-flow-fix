@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import { Compass, Grid2x2, Home, MapPin, Sparkles } from "lucide-react";
+import { Compass, Grid2x2, Heart, Home, MapPin } from "lucide-react";
 
 const TABS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/explore", label: "Explore", icon: Compass },
   { to: "/categories", label: "Categories", icon: Grid2x2 },
   { to: "/near-me", label: "Near me", icon: MapPin },
-  { to: "/featured", label: "Featured", icon: Sparkles },
+  { to: "/saved", label: "Saved", icon: Heart },
 ] as const;
 
 export function MobileTabBar() {

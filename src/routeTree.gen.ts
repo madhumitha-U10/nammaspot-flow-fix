@@ -15,8 +15,10 @@ import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as ExploreRouteImport } from './routes/explore'
 import { Route as FeaturedRouteImport } from './routes/featured'
 import { Route as NearMeRouteImport } from './routes/near-me'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as ProductProductIdRouteImport } from './routes/product.$productId'
 import { Route as SellerSlugRouteImport } from './routes/seller.$slug'
 import { Route as SellerDashboardRouteImport } from './routes/seller.dashboard'
 import { Route as SellerLoginRouteImport } from './routes/seller.login'
@@ -53,6 +55,11 @@ const NearMeRoute = NearMeRouteImport.update({
   path: '/near-me',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -61,6 +68,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const StoriesRoute = StoriesRouteImport.update({
   id: '/stories',
   path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductProductIdRoute = ProductProductIdRouteImport.update({
+  id: '/product/$productId',
+  path: '/product/$productId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SellerSlugRoute = SellerSlugRouteImport.update({
@@ -96,8 +108,10 @@ export interface FileRoutesByFullPath {
   '/explore': typeof ExploreRoute
   '/featured': typeof FeaturedRoute
   '/near-me': typeof NearMeRoute
+  '/saved': typeof SavedRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/seller/$slug': typeof SellerSlugRoute
   '/seller/dashboard': typeof SellerDashboardRoute
   '/seller/login': typeof SellerLoginRoute
@@ -111,8 +125,10 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreRoute
   '/featured': typeof FeaturedRoute
   '/near-me': typeof NearMeRoute
+  '/saved': typeof SavedRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/seller/$slug': typeof SellerSlugRoute
   '/seller/dashboard': typeof SellerDashboardRoute
   '/seller/login': typeof SellerLoginRoute
@@ -127,8 +143,10 @@ export interface FileRoutesById {
   '/explore': typeof ExploreRoute
   '/featured': typeof FeaturedRoute
   '/near-me': typeof NearMeRoute
+  '/saved': typeof SavedRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stories': typeof StoriesRoute
+  '/product/$productId': typeof ProductProductIdRoute
   '/seller/$slug': typeof SellerSlugRoute
   '/seller/dashboard': typeof SellerDashboardRoute
   '/seller/login': typeof SellerLoginRoute
@@ -144,8 +162,10 @@ export interface FileRouteTypes {
     | '/explore'
     | '/featured'
     | '/near-me'
+    | '/saved'
     | '/sitemap.xml'
     | '/stories'
+    | '/product/$productId'
     | '/seller/$slug'
     | '/seller/dashboard'
     | '/seller/login'
@@ -159,8 +179,10 @@ export interface FileRouteTypes {
     | '/explore'
     | '/featured'
     | '/near-me'
+    | '/saved'
     | '/sitemap.xml'
     | '/stories'
+    | '/product/$productId'
     | '/seller/$slug'
     | '/seller/dashboard'
     | '/seller/login'
@@ -174,8 +196,10 @@ export interface FileRouteTypes {
     | '/explore'
     | '/featured'
     | '/near-me'
+    | '/saved'
     | '/sitemap.xml'
     | '/stories'
+    | '/product/$productId'
     | '/seller/$slug'
     | '/seller/dashboard'
     | '/seller/login'
@@ -190,8 +214,10 @@ export interface RootRouteChildren {
   ExploreRoute: typeof ExploreRoute
   FeaturedRoute: typeof FeaturedRoute
   NearMeRoute: typeof NearMeRoute
+  SavedRoute: typeof SavedRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoriesRoute: typeof StoriesRoute
+  ProductProductIdRoute: typeof ProductProductIdRoute
   SellerSlugRoute: typeof SellerSlugRoute
   SellerDashboardRoute: typeof SellerDashboardRoute
   SellerLoginRoute: typeof SellerLoginRoute
@@ -243,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NearMeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -255,6 +288,13 @@ declare module '@tanstack/react-router' {
       path: '/stories'
       fullPath: '/stories'
       preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/$productId': {
+      id: '/product/$productId'
+      path: '/product/$productId'
+      fullPath: '/product/$productId'
+      preLoaderRoute: typeof ProductProductIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/seller/$slug': {
@@ -302,8 +342,10 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreRoute: ExploreRoute,
   FeaturedRoute: FeaturedRoute,
   NearMeRoute: NearMeRoute,
+  SavedRoute: SavedRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoriesRoute: StoriesRoute,
+  ProductProductIdRoute: ProductProductIdRoute,
   SellerSlugRoute: SellerSlugRoute,
   SellerDashboardRoute: SellerDashboardRoute,
   SellerLoginRoute: SellerLoginRoute,

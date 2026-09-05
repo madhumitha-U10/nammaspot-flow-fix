@@ -62,7 +62,7 @@ export function Header() {
             className="hidden sm:inline-flex"
             aria-label="Saved"
           >
-            <Link to="/featured">
+            <Link to="/saved">
               <Heart className="size-4" />
             </Link>
           </Button>
@@ -92,6 +92,13 @@ export function Header() {
                     {item.label}
                   </Link>
                 ))}
+                <Link
+                  to="/saved"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium hover:bg-secondary"
+                >
+                  My NammaSpot
+                </Link>
                 <div className="my-3 h-px bg-border" />
                 <Link
                   to="/seller/register"
