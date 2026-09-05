@@ -99,6 +99,11 @@ function SellerProfile() {
 
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
+  const sellerId = seller?.id;
+  useEffect(() => {
+    if (sellerId) trackStoreView(sellerId);
+  }, [sellerId]);
+
   if (resolved && resolved.seller === null) throw notFound();
   if (!seller) {
     return (
@@ -112,20 +117,8 @@ function SellerProfile() {
 
   const category = categoryById(seller.categoryId);
   const story = storiesBySeller(seller.id)[0];
+  const shopUrl = storeUrl(seller.slug);
 
-  const share = async () => {
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: seller.businessName, url });
-        return;
-      } catch {
-        /* user cancelled */
-      }
-    }
-    await navigator.clipboard.writeText(url);
-    toast.success("Profile link copied");
-  };
 
   return (
     <SiteShell>
